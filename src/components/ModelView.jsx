@@ -1,17 +1,23 @@
-import React from "react";
+import React, { Suspense } from "react";
+import IPhone from "./IPhone";
 
-import { OrbitControls, PerspectiveCamera, View } from "@react-three/drei";
+import {
+  Html,
+  OrbitControls,
+  PerspectiveCamera,
+  View,
+} from "@react-three/drei";
 import * as THREE from "three";
 
-const ModelView = (
+const ModelView = ({
   index,
   groupRef,
   controlRef,
   setRotationSize,
   gsapType,
   size,
-  item
-) => {
+  item,
+}) => {
   // console.log(groupRef);
   return (
     <div>
@@ -32,6 +38,26 @@ const ModelView = (
           target={new THREE.Vector3(0, 0, 0)}
           onEnd={() => setRotationSize(controlRef.current.getAzimuthalAngle())}
         />
+        {/* Suspens: https://www.elancer.co.kr/blog/detail/267 */}
+        <group
+          ref={groupRef}
+          name={`${index === 1 ? "small" : "large"}`}
+          position={[0, 0, 0]}
+        >
+          <Suspense
+            fallback={
+              <Html>
+                <div>Loading...</div>
+              </Html>
+            }
+          >
+            <IPhone
+              scale={index === 1 ? [15, 15, 15] : [17, 17, 17]}
+              item={item}
+              size={size}
+            />
+          </Suspense>
+        </group>
       </View>
     </div>
   );

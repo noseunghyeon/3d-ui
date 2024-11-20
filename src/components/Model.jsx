@@ -3,7 +3,10 @@ import gsap from "gsap";
 import React, { useRef, useState } from "react";
 import ModelView from "./ModelView";
 import { yellowImg } from "./../utils/index";
+
 import * as THREE from "three";
+import { Canvas } from "@react-three/fiber";
+import { View } from "@react-three/drei";
 
 const Model = () => {
   useGSAP(() => {
@@ -12,19 +15,19 @@ const Model = () => {
 
   const [size, setSize] = useState("small");
   const [model, setModel] = useState({
-    title: "iphone 15 pro in Natural Titanium",
+    title: "iPhone 15 pro in Natural Titanium",
     color: ["#8f8a81", "#ffe7b9", "#6f6c64"],
     img: yellowImg,
   });
 
-  //기기 크기에 따른 컨트롤 요소 저장
+  // 기기 크기에 따른 컨트롤 요소 저장
   const cameraControlSmall = useRef();
   const cameraControlLarge = useRef();
 
   const small = useRef(new THREE.Group());
   const large = useRef(new THREE.Group());
 
-  //rotation state
+  // rotation states
   const [smallRotation, setSmallRotation] = useState(0);
   const [largeRotation, setlargeRotation] = useState(0);
 
@@ -47,6 +50,21 @@ const Model = () => {
             item={model}
             size={size}
           />
+
+          <Canvas
+            className="w-full h-full"
+            style={{
+              position: "fixed",
+              top: 0,
+              left: 0,
+              bottom: 0,
+              right: 0,
+              overflow: "hidden",
+            }}
+            eventSource={document.getElementById("root")}
+          >
+            <View.Port />
+          </Canvas>
         </div>
       </div>
     </section>
